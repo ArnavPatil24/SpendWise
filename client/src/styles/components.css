@@ -231,7 +231,8 @@ tr:hover .row-actions, tr:focus-within .row-actions, .row-actions.always { opaci
   .strip:not(.strip-4) .strip-item:nth-child(3) { grid-column: 1 / -1; border-left: 0; }
   .hero { padding: 24px 20px; }
   .form-row { grid-template-columns: 1fr; }
-  .modal-card { padding: 22px 18px; }
+  .modal-heading { padding: 20px 18px 14px; }
+  .modal-body { padding: 4px 18px 22px; }
   .pagination { justify-content: center; }
   .toolbar select, .segmented-control { width: 100%; }
   .segmented-control button { flex: 1; }

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import api, { errorMessage } from '../api/client';
-import { expenseCategories, incomeCategories } from '../constants';
+import { expenseCategories, goalCategories, incomeCategories } from '../constants';
 import { useFinance } from './FinanceContext';
 import { useToast } from './ToastContext';
 
@@ -24,11 +24,12 @@ export function CategoryProvider({ children }) {
   const value = useMemo(() => {
     const expenseList = [...expenseCategories, ...custom.filter(c => c.type === 'expense').map(c => c.name)];
     const incomeList = [...incomeCategories, ...custom.filter(c => c.type === 'income').map(c => c.name)];
+    const goalList = [...goalCategories, ...custom.filter(c => c.type === 'goal').map(c => c.name)];
     const byName = new Map(custom.map(c => [c.name.toLowerCase(), c]));
 
     return {
-      custom, expenseList, incomeList,
-      listFor: type => (type === 'income' ? incomeList : expenseList),
+      custom, expenseList, incomeList, goalList,
+      listFor: type => (type === 'income' ? incomeList : type === 'goal' ? goalList : expenseList),
       metaFor: name => byName.get(String(name || '').toLowerCase()) || null,
 
       // Each returns the saved category (or true) on success and null/false on failure.

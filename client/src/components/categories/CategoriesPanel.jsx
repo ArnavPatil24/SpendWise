@@ -3,7 +3,7 @@ import { Pencil, Plus, Tags, Trash2 } from 'lucide-react';
 import CategoryModal from './CategoryModal';
 import DeleteCategoryModal from './DeleteCategoryModal';
 import { categoryIcons } from '../../constants/categoryIcons';
-import { expenseCategories, incomeCategories } from '../../constants';
+import { expenseCategories, goalCategories, incomeCategories } from '../../constants';
 import { useCategories } from '../../context/CategoryContext';
 
 function Group({ title, builtIn, custom, onEdit, onDelete }) {
@@ -46,6 +46,8 @@ export default function CategoriesPanel() {
         <Group title="Spending" builtIn={expenseCategories} custom={custom.filter(c => c.type === 'expense')}
           onEdit={c => setModal({ kind: 'edit', category: c })} onDelete={c => setModal({ kind: 'delete', category: c })} />
         <Group title="Income" builtIn={incomeCategories} custom={custom.filter(c => c.type === 'income')}
+          onEdit={c => setModal({ kind: 'edit', category: c })} onDelete={c => setModal({ kind: 'delete', category: c })} />
+        <Group title="Goals" builtIn={goalCategories} custom={custom.filter(c => c.type === 'goal')}
           onEdit={c => setModal({ kind: 'edit', category: c })} onDelete={c => setModal({ kind: 'delete', category: c })} />
       </div>
       {modal?.kind === 'new' && <CategoryModal onClose={() => setModal(null)} />}

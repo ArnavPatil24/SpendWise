@@ -103,8 +103,9 @@ export function parseQuickEntry(input, now = new Date(), custom = []) {
   }
   if (!(amount > 0)) amount = null;
 
-  // A custom category named in the text decides the type too ("tutoring 2000" can be an income category).
-  const named = findCustom(original, custom);
+  // A custom transaction category named in the text decides the type too ("tutoring 2000" can be an income category).
+  const txCustom = custom.filter(c => c.type === 'expense' || c.type === 'income');
+  const named = findCustom(original, txCustom);
   const type = named ? named.type : plus || INCOME_HINT.test(original) ? 'income' : 'expense';
   const title = text
     .replace(/\b(spent|paid|pay|bought|for|on|at|to|from|of|rs|inr|a|an|the)\b/gi, ' ')
@@ -117,7 +118,7 @@ export function parseQuickEntry(input, now = new Date(), custom = []) {
     title: pretty.slice(0, 100),
     amount,
     type,
-    category: guessCategory(`${title} ${original}`, type, custom),
+    category: guessCategory(`${title} ${original}`, type, txCustom),
     date: iso(found ? found.date : now)
   };
 }

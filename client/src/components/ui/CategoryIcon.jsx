@@ -30,6 +30,7 @@ export function CategoryIcon({ category, size = 18 }) {
 }
 
 export function GoalIcon({ category, size = 20 }) {
-  const Icon = pick(goalRules, category, Target);
+  const meta = useCategories()?.metaFor(category);
+  const Icon = meta ? (categoryIcons[meta.icon] || categoryIcons.tag) : pick(goalRules, category, Target);
   return <Icon size={size} strokeWidth={1.9} />;
 }

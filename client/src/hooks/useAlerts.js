@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useFinance } from '../context/FinanceContext';
 import { usePreferences } from '../context/PreferencesContext';
 import { useFormat } from './useFormat';
-import { upcomingAll } from '../utils/format';
+import { dateInput, upcomingAll } from '../utils/format';
 
 /** Things worth the user's attention right now: budgets, goals and upcoming bills. */
 export function useAlerts() {
@@ -13,6 +13,7 @@ export function useAlerts() {
   return useMemo(() => {
     const alerts = [];
     const today = new Date();
+    const todayKey = dateInput(today);
 
     if (budgetAlerts) {
       budgets.forEach(b => {
@@ -25,7 +26,7 @@ export function useAlerts() {
       });
     }
 
-    goals.filter(g => g.status !== 'completed' && new Date(g.targetDate) < today).forEach(g => {
+    goals.filter(g => g.status !== 'completed' && String(g.targetDate).slice(0, 10) < todayKey).forEach(g => {
       alerts.push({ id: `g-${g._id}`, tone: 'warn', title: `${g.title} is past its target date`, detail: 'Edit the date or add funds to catch up.', to: '/goals' });
     });
 

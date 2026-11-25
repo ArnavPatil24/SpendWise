@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import ModalShell from '../ui/ModalShell';
+import CategorySelect from '../categories/CategorySelect';
 import { goalCategories } from '../../constants';
 import { dateInput } from '../../utils/format';
 import { useFormat } from '../../hooks/useFormat';
 
 export default function GoalModal({ initial, onClose, onSave }) {
   const { base } = useFormat();
+  const [category, setCategory] = useState(initial?.category || goalCategories[0]);
   const [busy, setBusy] = useState(false);
   const defaultDate = new Date();
   defaultDate.setMonth(defaultDate.getMonth() + 3);
@@ -15,6 +17,7 @@ export default function GoalModal({ initial, onClose, onSave }) {
     e.preventDefault();
     setBusy(true);
     const p = Object.fromEntries(new FormData(e.currentTarget).entries());
+    p.category = category;
     p.targetAmount = Number(p.targetAmount);
     p.savedAmount = Number(p.savedAmount || 0);
     p.currency = base;
@@ -38,11 +41,7 @@ export default function GoalModal({ initial, onClose, onSave }) {
           </label>
         </div>
         <div className="form-row">
-          <label>Category
-            <select name="category" defaultValue={initial?.category || goalCategories[0]}>
-              {goalCategories.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </label>
+          <CategorySelect type="goal" value={category} onChange={setCategory} />
           <label>Target date
             <input name="targetDate" type="date" defaultValue={dateInput(initial ? initial.targetDate : defaultDate)} required />
           </label>

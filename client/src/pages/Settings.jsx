@@ -6,6 +6,7 @@ import CategoriesPanel from '../components/categories/CategoriesPanel';
 import { currencies, currencyNames } from '../constants';
 import { useAuth } from '../context/AuthContext';
 import { useFinance } from '../context/FinanceContext';
+import { useCategories } from '../context/CategoryContext';
 import { usePreferences } from '../context/PreferencesContext';
 import { useToast } from '../context/ToastContext';
 import { useFinanceActions } from '../hooks/useFinanceActions';
@@ -23,7 +24,8 @@ function Row({ title, text, children }) {
 
 export default function Settings() {
   const { user, logout } = useAuth();
-  const { budgets, goals, rules } = useFinance();
+  const { budgets, goals, rules, incomeSources } = useFinance();
+  const { custom: customCategories } = useCategories();
   const prefs = usePreferences();
   const toast = useToast();
   const { saveCurrency } = useFinanceActions();
@@ -46,7 +48,7 @@ export default function Settings() {
       const backup = {
         exportedAt: new Date().toISOString(),
         user: { name: user.name, email: user.email, baseCurrency: user.baseCurrency },
-        transactions: data.transactions, budgets, goals, scheduled: rules
+        transactions: data.transactions, incomeSources, budgets, goals, scheduled: rules, customCategories
       };
       downloadFile(JSON.stringify(backup, null, 2), `spendwise-backup-${today()}.json`, 'application/json');
       if (data.truncated) toast.info(`Backup downloaded. It holds the newest ${data.limit.toLocaleString()} transactions only.`);
@@ -116,7 +118,7 @@ export default function Settings() {
             <button className="btn btn-secondary btn-block" onClick={exportCsv}><Download size={16} /> Export transactions (CSV)</button>
             <button className="btn btn-secondary btn-block" onClick={exportBackup}><Database size={16} /> Full backup (JSON)</button>
           </div>
-          <small className="muted-small">Backups include transactions, budgets, goals and scheduled transactions.</small>
+          <small className="muted-small">Backups include transactions, income sources, budgets, goals, scheduled transactions and custom categories.</small>
         </section>
 
         <section className="panel">

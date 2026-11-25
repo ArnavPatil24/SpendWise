@@ -13,7 +13,7 @@ export default function DeleteCategoryModal({ category, onClose }) {
 
   useEffect(() => { loadUsage(category._id).then(setUsage); }, [category._id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const moving = usage ? usage.transactions + usage.rules + usage.sources : 0;
+  const moving = usage ? usage.transactions + usage.rules + usage.sources + (usage.goals || 0) : 0;
 
   async function confirm() {
     setBusy(true);
@@ -33,7 +33,8 @@ export default function DeleteCategoryModal({ category, onClose }) {
                 <p>
                   <strong>{usage.transactions}</strong> transaction{usage.transactions === 1 ? '' : 's'}
                   {usage.rules > 0 && <>, <strong>{usage.rules}</strong> scheduled</>}
-                  {usage.sources > 0 && <>, <strong>{usage.sources}</strong> income source{usage.sources === 1 ? '' : 's'}</>} use it.
+                  {usage.sources > 0 && <>, <strong>{usage.sources}</strong> income source{usage.sources === 1 ? '' : 's'}</>}
+                  {usage.goals > 0 && <>, <strong>{usage.goals}</strong> goal{usage.goals === 1 ? '' : 's'}</>} use it.
                 </p>
                 <label>Move them to
                   <select value={target} onChange={e => setTarget(e.target.value)}>

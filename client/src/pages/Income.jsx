@@ -105,7 +105,9 @@ export default function Income() {
                     <div className="amount-line"><strong className="text-pos">{fmt(s.currentAmount)}</strong><span>every month, on day {s.dueDay}</span></div>
                     <div className={`pay-status ${s.postedThisMonth ? 'is-done' : ''}`}>
                       {s.postedThisMonth
-                        ? <><CheckCircle2 size={15} /> Recorded this month: {fmt(s.receivedThisMonth)}</>
+                        ? s.receivedThisMonth > 0
+                          ? <><CheckCircle2 size={15} /> Recorded this month: {fmt(s.receivedThisMonth)}</>
+                          : <><CalendarClock size={15} /> Starts next month</>
                         : paused ? <><Pause size={15} /> Not recorded while paused</>
                           : <><CalendarClock size={15} /> Next pay in {Math.max(0, s.dueDay - today)} day{s.dueDay - today === 1 ? '' : 's'}</>}
                     </div>

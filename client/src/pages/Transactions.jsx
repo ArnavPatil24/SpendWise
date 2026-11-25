@@ -10,6 +10,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import TransactionTable from '../components/transactions/TransactionTable';
 import TransactionModal from '../components/transactions/TransactionModal';
 import ImportModal from '../components/transactions/ImportModal';
+import CategoryModal from '../components/categories/CategoryModal';
 import { useFinance } from '../context/FinanceContext';
 import { useToast } from '../context/ToastContext';
 import { useFinanceActions } from '../hooks/useFinanceActions';
@@ -40,6 +41,7 @@ export default function Transactions() {
   const [day, setDay] = useState(params.get('date') || '');
   const [selected, setSelected] = useState(() => new Set());
   const [importing, setImporting] = useState(false);
+  const [creatingCategory, setCreatingCategory] = useState(false);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -115,6 +117,8 @@ export default function Transactions() {
     toggleAll: () => setSelected(prev => (data.transactions.every(t => prev.has(t._id)) ? new Set() : new Set(data.transactions.map(t => t._id))))
   };
   const selectedItems = data.transactions.filter(t => selected.has(t._id));
+  const selectedTypes = new Set(selectedItems.map(t => t.type));
+  const bulkCategoryType = selectedTypes.size === 1 ? [...selectedTypes][0] : undefined;
   const allCategories = [...new Set([...expenseList, ...incomeList, ...categories])].sort((a, b) => a.localeCompare(b));
 
   return (
@@ -140,7 +144,7 @@ export default function Transactions() {
         <Segmented label="Filter by type" value={type} onChange={setType} options={typeOptions} />
         <select value={category} onChange={e => setCategory(e.target.value)} aria-label="Filter by category">
           <option value="all">All categories</option>
-          {categories.map(c => <option key={c}>{c}</option>)}
+          {allCategories.map(c => <option key={c}>{c}</option>)}
         </select>
         <select value={sort} onChange={e => setSort(e.target.value)} aria-label="Sort order">
           {sortOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -170,9 +174,13 @@ export default function Transactions() {
             <strong>{selected.size} selected</strong>
             <label className="bulk-category">
               <FolderInput size={15} />
-              <select value="" onChange={e => { if (e.target.value) bulkCategory([...selected], e.target.value); }} aria-label="Move selected to category">
+              <select value="" onChange={e => {
+                if (e.target.value === '__new__') setCreatingCategory(true);
+                else if (e.target.value) bulkCategory([...selected], e.target.value);
+              }} aria-label="Move selected to category">
                 <option value="">Move to category…</option>
                 {allCategories.map(c => <option key={c}>{c}</option>)}
+                <option value="__new__">＋ New category…</option>
               </select>
             </label>
             <button className="btn btn-danger-outline btn-sm" onClick={() => bulkDeleteTransactions(selectedItems)}><Trash2 size={14} /> Delete</button>
@@ -206,6 +214,14 @@ export default function Transactions() {
 
       {modal && <TransactionModal initial={modal.initial} onClose={() => setModal(null)} onSave={saveTransaction} />}
       {importing && <ImportModal onClose={() => setImporting(false)} onImport={importTransactions} />}
+      {creatingCategory && (
+        <CategoryModal
+          type={bulkCategoryType}
+          types={['expense', 'income']}
+          onClose={() => setCreatingCategory(false)}
+          onCreated={created => bulkCategory([...selected], created.name)}
+        />
+      )}
     </>
   );
 }

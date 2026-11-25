@@ -45,6 +45,8 @@
   --r-xl: 26px;
 
   --sidebar-w: 264px;
+  --scrollbar-thumb: #8892ab;
+  --scrollbar-track: transparent;
   color-scheme: light;
 }
 
@@ -76,11 +78,43 @@
   --shadow-2: 0 12px 34px -8px rgba(0, 0, 0, .6);
   --shadow-3: 0 30px 80px -20px rgba(0, 0, 0, .75);
   --ring: 0 0 0 3px rgba(112, 136, 255, .35);
+  --scrollbar-thumb: #5b6b8e;
+  --scrollbar-track: transparent;
   color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+.modal-body, .nav-groups, .popover ul, .palette-list, .day-panel .mini-list, .table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+@supports not (scrollbar-color: auto) {
+  html, .modal-body, .nav-groups, .popover ul, .palette-list, .day-panel .mini-list, .table-scroll {
+    scrollbar-width: auto;
+  }
+  html::-webkit-scrollbar, .modal-body::-webkit-scrollbar, .nav-groups::-webkit-scrollbar,
+  .popover ul::-webkit-scrollbar, .palette-list::-webkit-scrollbar,
+  .day-panel .mini-list::-webkit-scrollbar, .table-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  html::-webkit-scrollbar-thumb, .modal-body::-webkit-scrollbar-thumb, .nav-groups::-webkit-scrollbar-thumb,
+  .popover ul::-webkit-scrollbar-thumb, .palette-list::-webkit-scrollbar-thumb,
+  .day-panel .mini-list::-webkit-scrollbar-thumb, .table-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 99px;
+  }
+  html::-webkit-scrollbar-track, .modal-body::-webkit-scrollbar-track, .nav-groups::-webkit-scrollbar-track,
+  .popover ul::-webkit-scrollbar-track, .palette-list::-webkit-scrollbar-track,
+  .day-panel .mini-list::-webkit-scrollbar-track, .table-scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -143,10 +177,11 @@ kbd { font-family: var(--font-body); font-size: 11px; font-weight: 600; padding:
 
 /* ---------- Forms ---------- */
 .form { display: grid; gap: 16px; }
-.form label { display: grid; gap: 7px; font-weight: 600; font-size: 13px; color: var(--ink-2); }
+.form label { display: grid; gap: 7px; align-content: start; font-weight: 600; font-size: 13px; color: var(--ink-2); }
 .form label small { font-weight: 400; }
 .optional { font-weight: 400; color: var(--ink-3); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.form-row > * { min-width: 0; }
 .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
 .form-error { padding: 11px 14px; border-radius: var(--r-sm); background: var(--neg-soft); color: var(--neg); font-size: 13px; font-weight: 500; }
 

@@ -27,7 +27,7 @@ export default function ModalShell({ title, subtitle, onClose, children }) {
           <div><h2 id={titleId}>{title}</h2>{subtitle && <p>{subtitle}</p>}</div>
           <button className="btn-icon" onClick={onClose} aria-label="Close"><X size={18} /></button>
         </div>
-        {children}
+        <div className="modal-body">{children}</div>
       </div>
     </div>
   );

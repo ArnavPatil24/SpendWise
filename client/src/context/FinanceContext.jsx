@@ -61,7 +61,7 @@ export function FinanceProvider({ children }) {
       if (scope === 'all' || scope === 'rules') {
         first.push(api.get('/recurring').then(r => { setRules(r.data.rules); recorded += r.data.autoExecutedCount; }));
       }
-      if (scope === 'all' || scope === 'income') {
+      if (scope === 'all' || scope === 'income' || scope === 'transactions') {
         first.push(api.get('/income').then(r => { setIncomeSources(r.data.sources); recorded += r.data.postedCount; }));
       }
       await Promise.all(first);

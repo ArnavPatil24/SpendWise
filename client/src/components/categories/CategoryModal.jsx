@@ -5,14 +5,21 @@ import Segmented from '../ui/Segmented';
 import { categoryColors, categoryIconKeys, categoryIcons } from '../../constants/categoryIcons';
 import { useCategories } from '../../context/CategoryContext';
 
+const TYPE_OPTIONS = [
+  { value: 'expense', label: 'Spending' },
+  { value: 'income', label: 'Income' },
+  { value: 'goal', label: 'Goal' }
+];
+
 /**
  * Create a category, or edit an existing one (name, icon and colour; the type is fixed once created).
  * `type` pre-selects and locks the type when opened from a form that already knows it.
  */
-export default function CategoryModal({ category, type: lockedType, onClose, onCreated }) {
+export default function CategoryModal({ category, type: lockedType, types, onClose, onCreated }) {
   const { create, update } = useCategories();
   const editing = Boolean(category);
-  const [type, setType] = useState(category?.type || lockedType || 'expense');
+  const typeChoices = types?.length ? TYPE_OPTIONS.filter(o => types.includes(o.value)) : TYPE_OPTIONS;
+  const [type, setType] = useState(category?.type || lockedType || typeChoices[0].value);
   const [name, setName] = useState(category?.name || '');
   const [icon, setIcon] = useState(category?.icon || 'tag');
   const [color, setColor] = useState(category?.color || categoryColors[0]);
@@ -35,10 +42,9 @@ export default function CategoryModal({ category, type: lockedType, onClose, onC
     >
       <form className="form" onSubmit={submit}>
         {!editing && !lockedType && (
-          <Segmented label="Category type" value={type} onChange={setType}
-            options={[{ value: 'expense', label: 'Spending' }, { value: 'income', label: 'Income' }]} />
+          <Segmented label="Category type" value={type} onChange={setType} options={typeChoices} />
         )}
-        {!editing && lockedType && <div className="tip"><span>This will be a <strong>{lockedType === 'income' ? 'income' : 'spending'}</strong> category.</span></div>}
+        {!editing && lockedType && <div className="tip"><span>This will be a <strong>{lockedType === 'income' ? 'income' : lockedType === 'goal' ? 'goal' : 'spending'}</strong> category.</span></div>}
 
         <label>Name
           <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Pets, Gym, Tutoring" required minLength={2} maxLength={30} autoComplete="off" />
