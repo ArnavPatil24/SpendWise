@@ -1,0 +1,67 @@
+/* ---------- Categories: picker, preview, settings ---------- */
+.picker { display: grid; gap: 8px; }
+.picker-label { font-weight: 600; font-size: 13px; color: var(--ink-2); }
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; }
+.icon-grid button { display: grid; place-items: center; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink-2); transition: border-color .15s, background .15s, color .15s; }
+.icon-grid button:hover { border-color: var(--line-strong); color: var(--ink); }
+.icon-grid button.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.swatches button { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: #fff; box-shadow: inset 0 0 0 2px rgba(255,255,255,.35); }
+.swatches button.on { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
+.cat-preview { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r-md); background: var(--surface-2); border: 1px solid var(--line); }
+.cat-preview i { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; }
+.panel-wide { grid-column: 1 / -1; }
+.settings-head .head-action { margin-left: auto; }
+.cat-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.cat-group h4 { margin: 0 0 10px; font-family: var(--font-display); font-size: 14px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-custom-list { display: grid; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.cat-custom-list li { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: var(--r-sm); }
+.cat-custom-list li:hover { background: var(--surface-2); }
+.cat-custom-list li i { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; flex: none; }
+.cat-custom-list li strong { flex: 1; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Income ---------- */
+.income-card .amount-line { margin: 12px 0 8px; }
+.pay-status { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: var(--r-sm); background: var(--surface-2); border: 1px solid var(--line); font-size: 13px; color: var(--ink-2); }
+.pay-status.is-done { background: var(--pos-soft); border-color: transparent; color: var(--pos); font-weight: 600; }
+.income-card.is-paused { opacity: .72; }
+.income-card .card-foot { margin-top: auto; padding-top: 16px; }
+.income-card .card-foot .row-actions { flex-wrap: wrap; justify-content: flex-start; gap: 4px; }
+.arrived { display: grid; gap: 10px; margin: 0; padding: 14px; border-radius: var(--r-md); border: 1px solid color-mix(in srgb, var(--gold) 50%, var(--line)); background: var(--gold-soft); }
+.arrived legend { display: flex; align-items: center; gap: 7px; padding: 0 6px; font-weight: 600; font-size: 13px; color: var(--gold); }
+.form .radio-row { display: flex; align-items: flex-start; gap: 12px; font-weight: 500; color: var(--ink); cursor: pointer; }
+.radio-row input { width: 18px; min-height: 18px; height: 18px; padding: 0; margin-top: 2px; accent-color: var(--brand); flex: none; }
+.radio-row span { display: grid; gap: 2px; }
+.radio-row strong { font-weight: 600; }
+.raise-history { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface-2); border: 1px solid var(--line); }
+.raise-history li { display: flex; justify-content: space-between; font-size: 13.5px; color: var(--ink-2); }
+.raise-history strong { color: var(--ink); }
+.tip-block { margin-bottom: 18px; }
+.inline-link { margin: 0 2px; }
+
+/* ---------- Reports ---------- */
+.period-bar .status-pill { margin-left: 8px; }
+.report-note { display: flex; align-items: center; gap: 8px; margin: -6px 0 20px; font-size: 13px; color: var(--ink-3); }
+.bar-change { display: block; margin-top: 6px; }
+.bar-change.up { color: var(--warn); }
+.bar-change.down { color: var(--pos); }
+.health-summary small { display: block; margin-top: 8px; max-width: 32em; }
+
+/* ---------- "Last added" reminder ---------- */
+.nudge { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; padding: 14px 18px; border-radius: var(--r-lg); background: var(--brand-soft); border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line)); }
+.nudge > i { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 12px; background: var(--surface); color: var(--brand); }
+.nudge > div:nth-child(2) { flex: 1; min-width: 220px; display: grid; gap: 2px; }
+.nudge span { font-size: 13.5px; color: var(--ink-2); }
+.nudge-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+@media (max-width: 1180px) { .cat-groups { grid-template-columns: 1fr; } }
+
+/* ---------- Forgot / reset password, delete account ---------- */
+.forgot-row { display: flex; justify-content: flex-end; margin-top: -6px; }
+.forgot-done { display: grid; justify-items: start; gap: 12px; }
+.forgot-done > i { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: var(--pos-soft); color: var(--pos); }
+.forgot-done h2 { margin: 4px 0 0; }
+.forgot-done p { color: var(--ink-2); }
+.reset-page { min-height: 100vh; }
+.reset-brand { display: block; }
