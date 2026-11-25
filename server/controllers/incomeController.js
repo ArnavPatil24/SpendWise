@@ -81,7 +81,8 @@ async function describe(userId, sources, ctx) {
 
 exports.list = asyncHandler(async (req, res) => {
   const ctx = monthContext();
-  const { sources, posted } = await postDueIncome(req.userId, ctx);
+  const { posted } = await postDueIncome(req.userId, ctx);
+  const sources = await IncomeSource.find({ userId: req.userId });
   const ordered = [...sources].sort((a, b) => (a.schedule === b.schedule ? a.name.localeCompare(b.name) : a.schedule === 'monthly' ? -1 : 1));
   res.json({ sources: await describe(req.userId, ordered, ctx), postedCount: posted });
 });

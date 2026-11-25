@@ -4,8 +4,16 @@ const EXPENSE_CATEGORIES = [
   'Health', 'Education', 'Travel', 'Subscriptions', 'Other'
 ];
 const INCOME_CATEGORIES = ['Salary', 'Freelance', 'Business', 'Investment', 'Gift', 'Other income'];
+const GOAL_CATEGORIES = [
+  'Emergency Fund', 'Tech & Gadgets', 'Education', 'Travel & Vacation', 'Vehicle', 'Home', 'Investment', 'Other'
+];
 
-const BUILT_IN_KEYS = new Set([...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES].map(name => name.toLowerCase()));
+const BUILT_IN_BY_TYPE = {
+  expense: new Set(EXPENSE_CATEGORIES.map(name => name.toLowerCase())),
+  income: new Set(INCOME_CATEGORIES.map(name => name.toLowerCase())),
+  goal: new Set(GOAL_CATEGORIES.map(name => name.toLowerCase()))
+};
+const BUILT_IN_KEYS = new Set([...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES, ...GOAL_CATEGORIES].map(name => name.toLowerCase()));
 
 // Icon keys a custom category may use. The client maps each key to an icon component.
 const ICON_KEYS = [
@@ -15,4 +23,4 @@ const ICON_KEYS = [
   'wallet', 'hand-coins', 'sparkles'
 ];
 
-module.exports = { EXPENSE_CATEGORIES, INCOME_CATEGORIES, BUILT_IN_KEYS, ICON_KEYS };
+module.exports = { EXPENSE_CATEGORIES, INCOME_CATEGORIES, GOAL_CATEGORIES, BUILT_IN_BY_TYPE, BUILT_IN_KEYS, ICON_KEYS };

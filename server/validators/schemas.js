@@ -158,7 +158,7 @@ const hexColor = Joi.string().pattern(/^#[0-9a-fA-F]{6}$/).label('Colour');
 
 const categoryCreate = Joi.object({
   name: categoryName.required(),
-  type: Joi.string().valid('expense', 'income').required().label('Type'),
+  type: Joi.string().valid('expense', 'income', 'goal').required().label('Type'),
   icon: Joi.string().valid(...ICON_KEYS).default('tag').label('Icon'),
   color: hexColor.default('#4F6BF0')
 });
